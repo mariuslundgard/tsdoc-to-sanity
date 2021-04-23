@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.settings",
+  "files": ["./src/cli/index.ts", "./src/index.ts"],
+  "compilerOptions": {
+    "outDir": "./lib/dts/"
+  }
+}

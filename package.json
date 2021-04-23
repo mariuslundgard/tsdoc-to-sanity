@@ -1,0 +1,68 @@
+{
+  "name": "tsdoc-to-sanity",
+  "version": "1.0.0",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "bin": {
+    "tsdoc-to-sanity": "./bin/tsdoc-to-sanity"
+  },
+  "files": [
+    "/lib"
+  ],
+  "author": "Marius Lundgård <studio@mariuslundgard.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "run-s build:esbuild build:decl copy:decl:* clean:decl copy:json:*",
+    "build:decl": "tsc --emitDeclarationOnly --outDir lib/decl --project tsconfig.lib.json --rootDir ./src",
+    "build:esbuild": "node -r esbuild-register ./scripts/build.ts",
+    "clean": "rimraf lib",
+    "clean:decl": "rimraf lib/decl",
+    "copy:decl:cjs": "cpx 'lib/decl/**/*.{d.ts,d.ts.map}' lib/cjs",
+    "copy:decl:esm": "cpx 'lib/decl/**/*.{d.ts,d.ts.map}' lib/esm",
+    "copy:json:cjs": "cpx 'src/**/*.json' lib/cjs",
+    "copy:json:esm": "cpx 'src/**/*.json' lib/esm",
+    "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",
+    "postinstall": "yarn husky install",
+    "prebuild": "yarn clean",
+    "test": "jest",
+    "type-check": "tsc --noEmit -p tsconfig.lib.json"
+  },
+  "dependencies": {
+    "@microsoft/api-extractor": "^7.14.0",
+    "@microsoft/api-extractor-model": "^7.13.0",
+    "@microsoft/tsdoc": "^0.13.2",
+    "mkdirp": "^1.0.4",
+    "slugify": "^1.5.0",
+    "tmp": "^0.2.1",
+    "yargs": "^16.2.0"
+  },
+  "devDependencies": {
+    "@types/cpx": "^1.5.1",
+    "@types/jest": "^26.0.22",
+    "@types/mkdirp": "^1.0.1",
+    "@types/tmp": "^0.2.0",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "babel-eslint": "^10.1.0",
+    "chalk": "^4.1.1",
+    "cpx": "^1.5.0",
+    "esbuild": "^0.11.13",
+    "esbuild-jest": "^0.5.0",
+    "esbuild-register": "^2.5.0",
+    "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "globby": "^11.0.3",
+    "husky": "^6.0.0",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.4",
+    "npm-run-all": "^4.1.5",
+    "pkg-up": "^3.1.0",
+    "prettier": "^2.2.1",
+    "typescript": "^4.2.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint"
+  }
+}
